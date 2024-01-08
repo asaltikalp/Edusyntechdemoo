@@ -28,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.edusyntechdemo.R
+import androidx.compose.material.Card
+
 
 public data class Game(val id: Int, val title: String)
 
@@ -50,12 +52,9 @@ fun ChildModeScreen(
     gamesList: List<Game>
 ) {
     var currentGameIndex by remember { mutableStateOf(0) }
-    Spacer(modifier = Modifier.height(52.dp) )
 
     // Background Image and Overlay
-    Box(modifier = Modifier.fillMaxSize(),
-        //horizontalAlignment = Alignment.CenterVertically
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.background_image),
             contentDescription = null,
@@ -75,34 +74,45 @@ fun ChildModeScreen(
                     )
                 )
         )
-    }
 
-    // Main Content
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        // User card on the left
-        UserCard(userProfileImage, userName, userLevel, onSettingsClicked)
-
-        // Game navigation on the right
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+        // Main Content - Now centered within
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center // İçeriği merkeze hizala
         ) {
-            Button(onClick = { if (currentGameIndex > 0) currentGameIndex-- }) {
-                Text("<")
-            }
-            GameCard(gamesList[currentGameIndex])
-            Button(onClick = { if (currentGameIndex < gamesList.size - 1) currentGameIndex++ }) {
-                Text(">")
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment =  Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.height(52.dp))
+
+                // User card
+                UserCard(userProfileImage, userName, userLevel, onSettingsClicked)
+
+                // Game navigation
+                Box(
+                    contentAlignment = Alignment.Center, // Box içindeki içeriği merkeze hizala
+                    modifier = Modifier
+                        .fillMaxWidth() // Box'ın genişliğini maksimum yap
+                        .padding(16.dp) // Box'a padding ekle
+                        .background(Color.Black)                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Button(onClick = { if (currentGameIndex > 0) currentGameIndex-- }) {
+                            Text("<")
+                        }
+                        GameCard(gamesList[currentGameIndex])
+                        Button(onClick = { if (currentGameIndex < gamesList.size - 1) currentGameIndex++ }) {
+                            Text(">")
+                        }
+                    }
+                }
             }
         }
-
     }
 }
+
 
 @Composable
 fun UserCard(
@@ -115,11 +125,11 @@ fun UserCard(
     modifier = Modifier
         .width(500.dp)
         .height(500.dp)
-        .padding(16.dp)
-        .background(Color.Transparent) // Box'ın arka planını şeffaf yap
-) {
+        .padding(16.dp))
+    {
 
     Card(
+        backgroundColor = Color(0x99FFFFFF), // %50 saydamlıkta beyaz
         modifier = Modifier
             .padding(16.dp),
         shape = RoundedCornerShape(68.dp)
@@ -132,6 +142,7 @@ fun UserCard(
             horizontalArrangement = Arrangement.Center
         ) {
             Column(
+                modifier = Modifier,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
             ) {
@@ -156,7 +167,8 @@ fun UserCard(
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = "Ayarlar",
-                            modifier = Modifier.size(84.dp) // İkon boyutunu ayarla
+                            modifier = Modifier
+                                .size(84.dp) // İkon boyutunu ayarla
                         )
                     }
                 }
@@ -165,7 +177,8 @@ fun UserCard(
                     text = userName,
                     fontWeight = FontWeight.Bold,
                     fontSize = 48.sp,
-                    modifier = Modifier.padding(start = 16.dp), // Metne her yönden 8.dp padding ekle
+                    modifier = Modifier
+                        .padding(start = 16.dp), // Metne her yönden 8.dp padding ekle
                     textAlign = TextAlign.Start // Metni sola hizala
                 )
                 Text(
@@ -185,11 +198,12 @@ fun UserCard(
 @Composable
 fun GameCard(game: Game) {
     Card(
+        backgroundColor = Color(0x99FFFFFF), // %50 saydamlıkta beyaz
         modifier = Modifier
-            .width(600.dp)
-            .height(500.dp)
-            .padding(end = 8.dp),
-        shape = RoundedCornerShape(68.dp),
+            .width(500.dp)
+            .height(300.dp)
+            .padding(end = 25.dp),
+        shape = RoundedCornerShape(68.dp)
         // color = MaterialTheme.colorScheme.primaryContainer
     ) {
         Box(contentAlignment = Alignment.Center) {

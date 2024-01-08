@@ -128,7 +128,7 @@ fun DashboardScreen(ebeveyn: String, cocuk: String) {
             ) {
 
                 Text(
-                    text = "Merhaba $ebeveyn  \uD83D\uDC4B",
+                    text = "Merhaba $ebeveyn \uD83D\uDC4B",
                     fontWeight = FontWeight.Medium,
                     fontSize = 25.sp
                 )
@@ -204,7 +204,7 @@ fun DashboardScreen(ebeveyn: String, cocuk: String) {
                 )
                 // Child Mode Button
                 TextButton(onClick = {
-                    // Metne tıklandığında yapılacak işlemler
+                    navController.navigate("childMode")
                 })
             }
 
